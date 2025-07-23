@@ -1,0 +1,53 @@
+/* src/pages/Dashboard.css */
+
+.dashboard-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #f7faff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-title {
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: 1.4rem;
+  margin: 24px 0 16px 0;
+}
+
+.card {
+  width: 100%;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.card-meta {
+  color: #666;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.card-desc {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.card-footer {
+  font-size: 0.8rem;
+  color: #888;
+}
