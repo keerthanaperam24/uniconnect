@@ -33,7 +33,7 @@ function Posts() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/posts', formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setFormData({ type: 'housing', title: '', description: '', price: '' });

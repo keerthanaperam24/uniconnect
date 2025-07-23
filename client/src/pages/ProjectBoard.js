@@ -22,7 +22,7 @@ function ProjectBoard() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/projects', formData, {
+     await axios.post(`${process.env.REACT_APP_API_URL}/api/projects`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFormData({ title: '', description: '' });
