@@ -11,9 +11,13 @@ function Login({ onLogin }) {
     e.preventDefault();
     try {
       const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-      console.log('API URL:', baseURL); // ✅ Debug log
+      console.log('API URL:', baseURL);
 
-      const res = await axios.post(`${baseURL}/api/auth/login`, { email, password });
+      const res = await axios.post(
+        `${baseURL}/api/auth/login`,
+        { email, password },
+        { withCredentials: true } // 🔥 CORS-safe fix
+      );
 
       localStorage.setItem('token', res.data.token);
       if (onLogin) onLogin();
@@ -23,7 +27,6 @@ function Login({ onLogin }) {
     }
   };
 
-  // Styles
   const styles = {
     container: {
       height: '100vh',

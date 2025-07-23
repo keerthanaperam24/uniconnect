@@ -19,7 +19,12 @@ function Register() {
       const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
       console.log('Registering to:', `${baseURL}/api/auth/register`);
 
-      const res = await axios.post(`${baseURL}/api/auth/register`, formData);
+      const res = await axios.post(
+        `${baseURL}/api/auth/register`,
+        formData,
+        { withCredentials: true } // 🔥 critical line to prevent CORS issues with credentials
+      );
+
       setMessage('✅ Registered successfully! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
