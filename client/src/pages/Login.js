@@ -10,10 +10,11 @@ function Login({ onLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-   const res = await axios.post(
-  `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`,
-  { email, password }
-);
+      const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log('API URL:', baseURL); // ✅ Debug log
+
+      const res = await axios.post(`${baseURL}/api/auth/login`, { email, password });
+
       localStorage.setItem('token', res.data.token);
       if (onLogin) onLogin();
       navigate('/dashboard');

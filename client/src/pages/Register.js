@@ -16,7 +16,10 @@ function Register() {
     setMessage(null);
 
     try {
-      const res = await axios.post('${process.env.REACT_APP_API_URL}/api/auth/register', formData);
+      const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log('Registering to:', `${baseURL}/api/auth/register`);
+
+      const res = await axios.post(`${baseURL}/api/auth/register`, formData);
       setMessage('✅ Registered successfully! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {

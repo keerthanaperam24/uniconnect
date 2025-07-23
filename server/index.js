@@ -9,8 +9,20 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-// Updated CORS setup
-const allowedOrigins = ['http://localhost:3000', 'https://uniconnect-qsai.vercel.app'];
+// ✅ Updated allowed origins to include Render app
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://uniconnect-qsai.vercel.app',
+  'https://uniconnect-qsai.onrender.com'
+];
+
+// ✅ Handle preflight requests
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
+// ✅ Enable CORS
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
@@ -18,10 +30,10 @@ app.use(cors({
 
 app.use(express.json());
 
-// DB connection
+// ✅ Connect to MongoDB
 connectDB();
 
-// Socket.IO setup
+// ✅ Setup Socket.IO
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
@@ -29,7 +41,6 @@ const io = new Server(server, {
   }
 });
 
-// Real-time chat socket logic
 io.on('connection', (socket) => {
   socket.on('join', (userId) => {
     socket.join(userId);
@@ -41,7 +52,6 @@ io.on('connection', (socket) => {
       const msg = new Message({ senderId, receiverId, message });
       await msg.save();
 
-      // Send message to both sender and receiver
       io.to(receiverId).emit('message', { senderId, receiverId, message });
       io.to(senderId).emit('message', { senderId, receiverId, message });
     } catch (err) {
@@ -50,13 +60,13 @@ io.on('connection', (socket) => {
   });
 });
 
-// Routes
+// ✅ Define routes
 app.use('/api/test', require('./routes/test'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/Posts'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/users', require('./routes/users'));
 
-// Start the server
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
