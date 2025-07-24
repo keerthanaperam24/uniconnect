@@ -13,6 +13,7 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:3000',
   'https://uniconnect-qsai.vercel.app',
+  'https://uniconnect-ten.vercel.app',
   'https://uniconnect-qsai.onrender.com'
 ];
 
