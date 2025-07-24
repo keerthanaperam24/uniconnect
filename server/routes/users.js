@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken'); // ✅ Added missing import
 const authMiddleware = require('../authMiddleware');
 const User = require('../models/User');
 
-// GET /api/users
+// GET /api/users - Get all users (name, email, skills, interests)
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const users = await User.find().select('name email _id skills interests');
@@ -14,29 +15,42 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// PUT /api/users/profile
+// PUT /api/users/profile - Update user profile
 router.put('/profile', authMiddleware, async (req, res) => {
   const { name, skills, interests } = req.body;
+
   try {
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { name, skills, interests },
       { new: true }
     );
+
     if (!user) return res.status(404).json({ msg: 'User not found' });
+
     const token = jwt.sign(
       { id: user._id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email, skills: user.skills, interests: user.interests } });
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        skills: user.skills,
+        interests: user.interests
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(400).json({ msg: 'Error updating profile' });
   }
 });
 
-// GET /api/users/:userId
+// GET /api/users/:userId - Get single user by ID
 router.get('/:userId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId).select('name email skills interests');
